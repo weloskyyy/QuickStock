@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\QuickStock.Domain\QuickStock.Domain.csproj" />
+    <ProjectReference Include="..\QuickStock.Infrastructure\QuickStock.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

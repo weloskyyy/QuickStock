@@ -13,18 +13,20 @@ namespace QuickStock.Domain.Entities
 
         [Required]
         [StringLength(100)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        public string size { get; set; }
+        public string Size { get; set; }
 
         [Required]
         [StringLength(100)]
-        public string color { get; set; }
+        public string Color { get; set; }
 
-        public int stock { get; set; }
+        public int Stock { get; set; }
 
-        public decimal price { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; } = null!;
+        public decimal Price { get; set; }
 
 
     }

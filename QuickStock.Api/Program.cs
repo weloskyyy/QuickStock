@@ -17,6 +17,11 @@ builder.Services.AddDbContext<QuickStockDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<QuickStockDbContext>(options =>
+    options.UseSqlServer(connectionString));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<CategoryRepository>();

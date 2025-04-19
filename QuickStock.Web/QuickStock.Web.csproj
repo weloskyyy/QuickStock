@@ -25,4 +25,10 @@
     <PackageReference Include="System.Text.Json" Version="9.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\QuickStock.Api\QuickStock.Api.csproj" />
+    <ProjectReference Include="..\QuickStock.Application\QuickStock.Application.csproj" />
+    <ProjectReference Include="..\QuickStock.Domain\QuickStock.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
