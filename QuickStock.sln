@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickStock.Api", "QuickStoc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickStock.Web", "QuickStock.Web\QuickStock.Web.csproj", "{402E5FC7-0A22-49C0-9C91-C069E64775B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickStock.Application", "QuickStock.Application\QuickStock.Application.csproj", "{5861A10D-3887-4324-916D-9ABF220D44E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{402E5FC7-0A22-49C0-9C91-C069E64775B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{402E5FC7-0A22-49C0-9C91-C069E64775B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{402E5FC7-0A22-49C0-9C91-C069E64775B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5861A10D-3887-4324-916D-9ABF220D44E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5861A10D-3887-4324-916D-9ABF220D44E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5861A10D-3887-4324-916D-9ABF220D44E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5861A10D-3887-4324-916D-9ABF220D44E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

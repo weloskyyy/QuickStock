@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 using QuickStock.Domain.Entities;
-using QuickStock.infrastructure.Data;
+using QuickStock.Infrastructure.Data;
 
 namespace QuickStock.Infrastructure.Repositories
 {

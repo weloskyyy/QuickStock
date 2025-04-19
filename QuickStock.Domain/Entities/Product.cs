@@ -9,7 +9,7 @@ namespace QuickStock.Domain.Entities
 {
     public class Product
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(100)]

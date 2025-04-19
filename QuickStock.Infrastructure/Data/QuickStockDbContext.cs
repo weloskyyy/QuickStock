@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using QuickStock.Domain.Entities;
 
-namespace QuickStock.infrastructure.Data
+namespace QuickStock.Infrastructure.Data
 {
     public class QuickStockDbContext : DbContext
     {

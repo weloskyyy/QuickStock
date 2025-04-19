@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QuickStock.Domain.Entities;
-using QuickStock.infrastructure.Data;
+using QuickStock.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace QuickStock.infrastructure.Repositories
+namespace QuickStock.Infrastructure.Repositories
 {
     public class SaleRepository
     {
