@@ -1,0 +1,20 @@
+﻿@model QuickStock.Domain.Entities.Category
+
+@{
+    ViewData["Title"] = "Eliminar Categoría";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-danger">¿Estás seguro de que deseas eliminar esta categoría?</h2>
+
+<div class="border p-4 mb-3">
+    <dl class="row">
+        <dt class="col-sm-2">Nombre</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+    </dl>
+</div>
+
+<form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

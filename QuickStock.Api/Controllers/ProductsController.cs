@@ -5,6 +5,8 @@ using QuickStock.Infrastructure.Repositories;
 
 namespace QuickStock.Api.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
         private readonly ProductRepository _repository;

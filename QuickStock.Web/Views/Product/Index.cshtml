@@ -1,0 +1,37 @@
+﻿@model List<QuickStock.Domain.Entities.Product>
+
+@{
+    ViewData["Title"] = "Productos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-4">Listado de Productos</h2>
+
+<a href="/Product/Create" class="btn btn-primary mb-3">+ Nuevo Producto</a>
+
+<table class="table table-hover table-bordered align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Price.ToString("C")</td>
+                <td>@item.Stock</td>
+                <td>
+                    <a href="/Product/Edit/@item.Id" class="btn btn-sm btn-warning text-white">Editar</a>
+                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.Id" data-name="@item.Name">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

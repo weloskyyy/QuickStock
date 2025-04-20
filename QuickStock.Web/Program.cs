@@ -1,7 +1,27 @@
+using QuickStock.Application.Services;
+using QuickStock.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+using QuickStock.Infrastructure.Data;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<SaleService>();
+builder.Services.AddScoped<SaleRepository>();
+builder.Services.AddScoped<ProductRepository>();
+
+
+builder.Services.AddHttpClient("QuickStockApi", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7122");
+});
+
+builder.Services.AddDbContext<QuickStockDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 var app = builder.Build();
 

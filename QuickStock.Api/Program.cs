@@ -26,7 +26,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<SaleRepository>();
-builder.Services.AddScoped<SaleDetailRepository>();
+
 
 var app = builder.Build();
 

@@ -1,0 +1,27 @@
+﻿@model QuickStock.Domain.Entities.Sale
+
+@{
+    ViewData["Title"] = "Editar Venta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-4">Editar Venta</h2>
+
+<form method="post" asp-controller="Sale" asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Date" class="form-label">Fecha</label>
+        <input asp-for="Date" class="form-control" type="date" />
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Total" class="form-label">Total</label>
+        <input asp-for="Total" class="form-control" />
+        <span asp-validation-for="Total" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-warning text-white">Actualizar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

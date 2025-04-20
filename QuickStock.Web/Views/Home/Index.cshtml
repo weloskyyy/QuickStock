@@ -1,8 +1,43 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4 mb-3">Bienvenidos a QuickStockRD</h1>
+    <p class="lead mb-4">
+        QuickStock es un sistema de gestión de inventario en tiempo real, diseñado para tiendas en línea.
+        Permite registrar productos, controlar el stock, gestionar ventas y analizar el rendimiento de tus productos.
+    </p>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">🛍️ Gestión de Productos</h5>
+                    <p class="card-text">Registra, edita y organiza todos los productos de tu tienda fácilmente.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">📦 Control de Inventario</h5>
+                    <p class="card-text">Visualiza el stock disponible en tiempo real y evita sobreventas.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">📈 Reportes y Ventas</h5>
+                    <p class="card-text">Consulta el historial de ventas y obtén reportes claros y útiles.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a class="btn btn-primary btn-lg mt-3" href="/Product">Ir a Productos</a>
 </div>

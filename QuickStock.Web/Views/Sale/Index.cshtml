@@ -1,0 +1,35 @@
+﻿@model List<QuickStock.Domain.Entities.Sale>
+
+@{
+    ViewData["Title"] = "Historial de Ventas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-4">Historial de Ventas</h2>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var venta in Model)
+        {
+            <tr>
+                <td>@venta.Id</td>
+                <td>@venta.Date.ToShortDateString()</td>
+                <td>@venta.Total.ToString("C")</td>
+                <td>
+                    <a href="/SaleDetail?saleId=@venta.Id" class="btn btn-sm btn-info text-white">Ver Detalles</a>
+                    <a href="/Sale/Edit/@venta.Id" class="btn btn-sm btn-warning text-white">Editar</a>
+                    <a href="/Sale/Delete/@venta.Id" class="btn btn-sm btn-danger">Eliminar</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

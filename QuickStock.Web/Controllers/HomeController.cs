@@ -1,32 +1,37 @@
 using Microsoft.AspNetCore.Mvc;
-using QuickStock.Web.Models;
-using System.Diagnostics;
+using QuickStock.Domain.Entities;
+using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace QuickStock.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly HttpClient _httpClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(HttpClient httpClient)
         {
-            _logger = logger;
+            _httpClient = httpClient;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+
+
+            var productUrl = "https://localhost:7122/api/products";
+            var categoryUrl = "https://localhost:7122/api/categories";
+            var saleUrl = "https://localhost:7122/api/sales";
+
+            var products = await _httpClient.GetFromJsonAsync<List<Product>>(productUrl) ?? new();
+            var categories = await _httpClient.GetFromJsonAsync<List<Category>>(categoryUrl) ?? new();
+            var sales = await _httpClient.GetFromJsonAsync<List<Sale>>(saleUrl) ?? new();
+
+            ViewBag.TotalProductos = products.Count;
+            ViewBag.TotalCategorias = categories.Count;
+            ViewBag.TotalVentas = sales.Count;
+            ViewBag.TotalIngresos = sales.Sum(s => s.Total);
+
             return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

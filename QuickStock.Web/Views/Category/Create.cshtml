@@ -1,0 +1,23 @@
+﻿@model QuickStock.Domain.Entities.Category
+
+@{
+    ViewData["Title"] = "Crear Categoría";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-4">Registrar Nueva Categoría</h2>
+
+<form method="post" asp-controller="Category" asp-action="Create">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Nombre</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
