@@ -15,12 +15,23 @@ namespace QuickStock.API.Controllers
             _repository = repository;
         }
 
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var sales = await _repository.GetAllAsync();
-            return Ok(sales);
+            try
+            {
+                var sales = await _repository.GetAllAsync();
+                return Ok(sales);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("❌ ERROR en GetAll Sales: " + ex.Message);
+                return StatusCode(500, "Error interno en la API de ventas.");
+            }
         }
+
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -43,7 +54,7 @@ namespace QuickStock.API.Controllers
         public async Task<IActionResult> Update(int id, [FromBody] Sale sale)
         {
             if (id != sale.Id)
-                return BadRequest("El ID de la venta no coincide con el recibido.");
+                return BadRequest("El ID no coincide.");
 
             await _repository.UpdateAsync(sale);
             return NoContent();
@@ -57,3 +68,4 @@ namespace QuickStock.API.Controllers
         }
     }
 }
+

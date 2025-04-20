@@ -18,7 +18,7 @@ namespace QuickStock.Domain.Entities
         [Required]
         public string Size { get; set; }
 
-        [Required]
+        
         [StringLength(100)]
         public string Color { get; set; }
 

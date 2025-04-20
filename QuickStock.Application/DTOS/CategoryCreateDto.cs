@@ -5,17 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickStock.Domain.Entities
+namespace QuickStock.Application.DTOS
 {
-    public class Category
+    public class CategoryCreateDto
     {
-        public int Id { get; set; }
-
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
-
-        public ICollection<Product> Products { get; set; }
     }
 
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using QuickStock.Domain.Entities;
+using QuickStock.Application.DTOs;
 using System.Net.Http;
 using System.Net.Http.Json;
 
@@ -9,6 +11,7 @@ namespace QuickStock.Web.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly string _apiUrl = "https://localhost:7122/api/products";
+        private readonly string _categoryApiUrl = "https://localhost:7122/api/categories";
 
         public ProductController(HttpClient httpClient)
         {
@@ -20,26 +23,42 @@ namespace QuickStock.Web.Controllers
             var products = await _httpClient.GetFromJsonAsync<List<Product>>(_apiUrl) ?? new();
             return View(products);
         }
-        public IActionResult Create()
+
+        // GET: /Product/Create
+        public async Task<IActionResult> Create()
         {
+            await LoadCategoriesAsync();
             return View();
         }
 
         // POST: /Product/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product)
         {
             if (!ModelState.IsValid)
             {
+                await LoadCategoriesAsync();
                 return View(product);
             }
 
-            var response = await _httpClient.PostAsJsonAsync(_apiUrl, product);
+            var dto = new ProductCreateDto
+            {
+                Name = product.Name,
+                Size = product.Size,
+                Color = product.Color,
+                Price = product.Price,
+                Stock = product.Stock,
+                CategoryId = product.CategoryId
+            };
+
+            var response = await _httpClient.PostAsJsonAsync(_apiUrl, dto);
 
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Index");
 
-            ModelState.AddModelError(string.Empty, "Ocurrió un error al registrar el producto.");
+            ModelState.AddModelError(string.Empty, "Error al guardar el producto.");
+            await LoadCategoriesAsync();
             return View(product);
         }
 
@@ -50,16 +69,22 @@ namespace QuickStock.Web.Controllers
             if (product == null)
                 return NotFound();
 
+            await LoadCategoriesAsync();
             return View(product);
         }
 
+     
+
         // POST: /Product/Edit
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Product product)
         {
             if (!ModelState.IsValid)
             {
+                await LoadCategoriesAsync();
                 return View(product);
+            }
 
             var response = await _httpClient.PutAsJsonAsync($"{_apiUrl}/{product.Id}", product);
 
@@ -67,8 +92,10 @@ namespace QuickStock.Web.Controllers
                 return RedirectToAction("Index");
 
             ModelState.AddModelError(string.Empty, "Ocurrió un error al actualizar el producto.");
+            await LoadCategoriesAsync();
             return View(product);
         }
+
 
         // GET: /Product/Delete/{id}
         public async Task<IActionResult> Delete(int id)
@@ -93,6 +120,11 @@ namespace QuickStock.Web.Controllers
             return RedirectToAction("Delete", new { id });
         }
 
-
+        // Cargar categorías en el ViewBag
+        private async Task LoadCategoriesAsync()
+        {
+            var categories = await _httpClient.GetFromJsonAsync<List<Category>>(_categoryApiUrl);
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+        }
     }
 }

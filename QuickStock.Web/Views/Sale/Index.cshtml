@@ -22,7 +22,7 @@
             <tr>
                 <td>@venta.Id</td>
                 <td>@venta.Date.ToShortDateString()</td>
-                <td>@venta.Total.ToString("C")</td>
+                <td>@venta.TotalAmount.ToString("C")</td>
                 <td>
                     <a href="/SaleDetail?saleId=@venta.Id" class="btn btn-sm btn-info text-white">Ver Detalles</a>
                     <a href="/Sale/Edit/@venta.Id" class="btn btn-sm btn-warning text-white">Editar</a>

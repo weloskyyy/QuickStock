@@ -8,7 +8,7 @@ namespace QuickStock.Web.Controllers
     public class SaleController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly string _apiUrl = "https://localhost:7122/api/Sale";
+        private readonly string _apiUrl = "https://localhost:7122/api/Sales"; // Nota: Sales en plural
 
         public SaleController(HttpClient httpClient)
         {
@@ -20,10 +20,11 @@ namespace QuickStock.Web.Controllers
             var sales = await _httpClient.GetFromJsonAsync<List<Sale>>(_apiUrl) ?? new();
             return View(sales);
         }
+
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var sale = await _httpClient.GetFromJsonAsync<Sale>($"https://localhost:7122/api/Sales/{id}");
+            var sale = await _httpClient.GetFromJsonAsync<Sale>($"{_apiUrl}/{id}");
             if (sale == null)
                 return NotFound();
 
@@ -33,7 +34,7 @@ namespace QuickStock.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Sale sale)
         {
-            var response = await _httpClient.PutAsJsonAsync($"https://localhost:7122/api/Sales/{sale.Id}", sale);
+            var response = await _httpClient.PutAsJsonAsync($"{_apiUrl}/{sale.Id}", sale);
 
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Index");
@@ -42,20 +43,22 @@ namespace QuickStock.Web.Controllers
             return View(sale);
         }
 
+     
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var sale = await _httpClient.GetFromJsonAsync<Sale>($"https://localhost:7122/api/Sales/{id}");
+            var sale = await _httpClient.GetFromJsonAsync<Sale>($"{_apiUrl}/{id}");
             if (sale == null)
                 return NotFound();
 
             return View(sale);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var response = await _httpClient.DeleteAsync($"https://localhost:7122/api/Sales/{id}");
+            // Este método hace el DELETE hacia la API
+            var response = await _httpClient.DeleteAsync($"{_apiUrl}/{id}");
 
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Index");
@@ -63,5 +66,6 @@ namespace QuickStock.Web.Controllers
             ModelState.AddModelError(string.Empty, "No se pudo eliminar la venta.");
             return RedirectToAction("Delete", new { id });
         }
+
     }
 }

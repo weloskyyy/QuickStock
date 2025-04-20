@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using QuickStock.Application.DTOS;
 using QuickStock.Domain.Entities;
 using QuickStock.Infrastructure.Repositories;
 
@@ -15,8 +16,15 @@ namespace QuickStock.API.Controllers
             _repository = repository;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var categories = await _repository.GetAllAsync();
+            return Ok(categories);
+        }
+
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> Get(int id)
         {
             var category = await _repository.GetByIdAsync(id);
             if (category == null)
@@ -25,11 +33,13 @@ namespace QuickStock.API.Controllers
             return Ok(category);
         }
 
+
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Category category)
         {
             await _repository.AddAsync(category);
-            return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
+            return CreatedAtAction(nameof(Get), new { id = category.Id }, category);
         }
 
         [HttpPut("{id}")]

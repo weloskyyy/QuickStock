@@ -1,6 +1,4 @@
-﻿
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using QuickStock.Domain.Entities;
 
 namespace QuickStock.Infrastructure.Data
@@ -12,6 +10,13 @@ namespace QuickStock.Infrastructure.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Sale> Sales { get; set; }
-        
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Sale>()
+                .Ignore(s => s.TotalAmount); 
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

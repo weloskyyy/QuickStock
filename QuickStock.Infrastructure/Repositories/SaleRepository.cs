@@ -14,10 +14,13 @@ namespace QuickStock.Infrastructure.Repositories
             _context = context;
         }
 
+
         public async Task<List<Sale>> GetAllAsync()
         {
             return await _context.Sales.ToListAsync();
         }
+
+
 
         public async Task<Sale?> GetByIdAsync(int id)
         {

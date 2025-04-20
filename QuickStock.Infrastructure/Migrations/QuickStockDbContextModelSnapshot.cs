@@ -89,29 +89,10 @@ namespace QuickStock.Infrastructure.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sales");
-                });
-
-            modelBuilder.Entity("QuickStock.Domain.Entities.SaleDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SaleId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("UnitPrice")
@@ -121,9 +102,7 @@ namespace QuickStock.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("SaleId");
-
-                    b.ToTable("SaleDetails");
+                    b.ToTable("Sales");
                 });
 
             modelBuilder.Entity("QuickStock.Domain.Entities.Product", b =>
@@ -137,7 +116,7 @@ namespace QuickStock.Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("QuickStock.Domain.Entities.SaleDetail", b =>
+            modelBuilder.Entity("QuickStock.Domain.Entities.Sale", b =>
                 {
                     b.HasOne("QuickStock.Domain.Entities.Product", "Product")
                         .WithMany()
@@ -145,25 +124,12 @@ namespace QuickStock.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuickStock.Domain.Entities.Sale", "Sales")
-                        .WithMany("SaleDetails")
-                        .HasForeignKey("SaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Product");
-
-                    b.Navigation("Sales");
                 });
 
             modelBuilder.Entity("QuickStock.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("QuickStock.Domain.Entities.Sale", b =>
-                {
-                    b.Navigation("SaleDetails");
                 });
 #pragma warning restore 612, 618
         }
