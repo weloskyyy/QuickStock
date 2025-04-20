@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using QuickStock.Domain.Entities;
 using QuickStock.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -20,8 +16,9 @@ namespace QuickStock.Infrastructure.Repositories
 
         public async Task<List<Sale>> GetAllAsync()
         {
-            return await _context.Sales.Include(s => s.SaleDetails).ToListAsync();
+            return await _context.Sales.ToListAsync();
         }
+
         public async Task<Sale?> GetByIdAsync(int id)
         {
             return await _context.Sales.FirstOrDefaultAsync(s => s.Id == id);
@@ -32,11 +29,13 @@ namespace QuickStock.Infrastructure.Repositories
             await _context.Sales.AddAsync(sale);
             await _context.SaveChangesAsync();
         }
+
         public async Task UpdateAsync(Sale sale)
         {
             _context.Sales.Update(sale);
             await _context.SaveChangesAsync();
         }
+
         public async Task DeleteAsync(int id)
         {
             var sale = await _context.Sales.FindAsync(id);
@@ -46,6 +45,7 @@ namespace QuickStock.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
 
     }
 }
