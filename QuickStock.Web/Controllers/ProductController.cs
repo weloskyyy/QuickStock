@@ -10,7 +10,6 @@ namespace QuickStock.Web.Controllers
         private readonly HttpClient _httpClient;
         private readonly string _apiUrl = "https://localhost:7122/api/products";
 
-
         public ProductController(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -30,8 +29,6 @@ namespace QuickStock.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Product product)
         {
-            Console.WriteLine($"INTENTANDO CREAR: {product.Name} - {product.Price}");
-
             if (!ModelState.IsValid)
             {
                 return View(product);
@@ -40,9 +37,7 @@ namespace QuickStock.Web.Controllers
             var response = await _httpClient.PostAsJsonAsync(_apiUrl, product);
 
             if (response.IsSuccessStatusCode)
-            {
                 return RedirectToAction("Index");
-            }
 
             ModelState.AddModelError(string.Empty, "Ocurrió un error al registrar el producto.");
             return View(product);
@@ -53,9 +48,7 @@ namespace QuickStock.Web.Controllers
         {
             var product = await _httpClient.GetFromJsonAsync<Product>($"{_apiUrl}/{id}");
             if (product == null)
-            {
                 return NotFound();
-            }
 
             return View(product);
         }
@@ -67,28 +60,22 @@ namespace QuickStock.Web.Controllers
             if (!ModelState.IsValid)
             {
                 return View(product);
-            }
 
             var response = await _httpClient.PutAsJsonAsync($"{_apiUrl}/{product.Id}", product);
 
             if (response.IsSuccessStatusCode)
-            {
                 return RedirectToAction("Index");
-            }
 
             ModelState.AddModelError(string.Empty, "Ocurrió un error al actualizar el producto.");
             return View(product);
         }
 
         // GET: /Product/Delete/{id}
-       
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _httpClient.GetFromJsonAsync<Product>($"{_apiUrl}/{id}");
             if (product == null)
-            {
                 return NotFound();
-            }
 
             return View(product);
         }
@@ -100,9 +87,7 @@ namespace QuickStock.Web.Controllers
             var response = await _httpClient.DeleteAsync($"{_apiUrl}/{id}");
 
             if (response.IsSuccessStatusCode)
-            {
                 return RedirectToAction("Index");
-            }
 
             ModelState.AddModelError(string.Empty, "No se pudo eliminar el producto.");
             return RedirectToAction("Delete", new { id });

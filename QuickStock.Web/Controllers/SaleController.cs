@@ -63,6 +63,5 @@ namespace QuickStock.Web.Controllers
             ModelState.AddModelError(string.Empty, "No se pudo eliminar la venta.");
             return RedirectToAction("Delete", new { id });
         }
-
     }
 }

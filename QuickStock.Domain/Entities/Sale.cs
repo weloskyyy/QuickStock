@@ -11,4 +11,3 @@ namespace QuickStock.Domain.Entities
        
 
     }
-}

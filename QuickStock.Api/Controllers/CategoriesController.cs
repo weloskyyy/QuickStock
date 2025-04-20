@@ -15,13 +15,6 @@ namespace QuickStock.API.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var categories = await _repository.GetAllAsync();
-            return Ok(categories);
-        }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {

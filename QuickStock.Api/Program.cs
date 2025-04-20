@@ -1,10 +1,6 @@
-
 using Microsoft.EntityFrameworkCore;
 using QuickStock.Infrastructure.Data;
 using QuickStock.Infrastructure.Repositories;
-
-
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +23,6 @@ builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<SaleRepository>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,9 +33,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
