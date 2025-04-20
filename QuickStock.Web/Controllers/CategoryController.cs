@@ -8,19 +8,22 @@ namespace QuickStock.Web.Controllers
     public class CategoryController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly string _apiUrl = "https://localhost:7122/api/Category"; 
+        private readonly string _apiUrl = "https://localhost:7122/api/categories"; // Asegúrate que el endpoint en tu API se llama así
 
         public CategoryController(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
+        // GET: /Category
         public async Task<IActionResult> Index()
         {
             var categories = await _httpClient.GetFromJsonAsync<List<Category>>(_apiUrl) ?? new();
             return View(categories);
         }
+
         // GET: /Category/Create
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -28,6 +31,7 @@ namespace QuickStock.Web.Controllers
 
         // POST: /Category/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Category category)
         {
             if (!ModelState.IsValid)
@@ -42,18 +46,20 @@ namespace QuickStock.Web.Controllers
             return View(category);
         }
 
-        [HttpPost]
         // GET: /Category/Edit/{id}
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var category = await _httpClient.GetFromJsonAsync<Category>($"{_apiUrl}/{id}");
-            if (category == null) return NotFound();
+            if (category == null)
+                return NotFound();
 
             return View(category);
         }
 
         // POST: /Category/Edit
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Category category)
         {
             if (!ModelState.IsValid)
@@ -69,16 +75,19 @@ namespace QuickStock.Web.Controllers
         }
 
         // GET: /Category/Delete/{id}
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _httpClient.GetFromJsonAsync<Category>($"{_apiUrl}/{id}");
-            if (category == null) return NotFound();
+            if (category == null)
+                return NotFound();
 
             return View(category);
         }
 
         // POST: /Category/Delete/{id}
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var response = await _httpClient.DeleteAsync($"{_apiUrl}/{id}");
@@ -89,7 +98,5 @@ namespace QuickStock.Web.Controllers
             ModelState.AddModelError(string.Empty, "Error al eliminar la categoría.");
             return RedirectToAction("Delete", new { id });
         }
-
-
     }
 }
