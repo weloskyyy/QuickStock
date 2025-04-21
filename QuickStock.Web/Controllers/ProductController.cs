@@ -73,7 +73,7 @@ namespace QuickStock.Web.Controllers
             return View(product);
         }
 
-     
+
 
         // POST: /Product/Edit
         [HttpPost]
@@ -86,12 +86,15 @@ namespace QuickStock.Web.Controllers
                 return View(product);
             }
 
+            // Make sure we're sending the ID in both the URL and the request body
             var response = await _httpClient.PutAsJsonAsync($"{_apiUrl}/{product.Id}", product);
 
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Index");
 
-            ModelState.AddModelError(string.Empty, "Ocurrió un error al actualizar el producto.");
+            // If we get here, something went wrong
+            var errorContent = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError(string.Empty, $"Error al actualizar el producto: {errorContent}");
             await LoadCategoriesAsync();
             return View(product);
         }

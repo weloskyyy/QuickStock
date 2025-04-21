@@ -62,17 +62,33 @@ namespace QuickStock.Api.Controllers
         }
 
 
-
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Product product)
+        public async Task<IActionResult> Update(int id, [FromBody] ProductUpdateDto dto)
         {
-            Console.WriteLine($"🔍 ID en la URL: {id}, ID en el body: {product.Id}"); // 👈 Aquí
-
-            if (id != product.Id)
+            if (id != dto.Id)
                 return BadRequest();
 
-            await _repository.UpdateAsync(product);
-            return NoContent();
+            try
+            {
+                var product = await _repository.GetByIdAsync(id);
+                if (product == null)
+                    return NotFound();
+
+                // Actualizar propiedades
+                product.Name = dto.Name;
+                product.Size = dto.Size;
+                product.Color = dto.Color;
+                product.Stock = dto.Stock;
+                product.Price = dto.Price;
+                product.CategoryId = dto.CategoryId;
+
+                await _repository.UpdateAsync(product);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
 

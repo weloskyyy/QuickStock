@@ -11,6 +11,6 @@ namespace QuickStock.Domain.Entities
         [StringLength(50, ErrorMessage = "Máximo 50 caracteres")]
         public string Name { get; set; } = string.Empty; // ✅ Evita advertencias
 
-        public ICollection<Product> Products { get; set; } = new List<Product>(); // ✅ Inicialización segura
+        public ICollection<Product> Products { get; set; } = new List<Product>(); 
     }
 }
