@@ -38,7 +38,9 @@ namespace QuickStock.Api.Controllers
             try
             {
                 if (!ModelState.IsValid)
+                {
                     return BadRequest(ModelState);
+                }
 
                 var product = new Product
                 {
@@ -55,39 +57,44 @@ namespace QuickStock.Api.Controllers
             }
             catch (Exception ex)
             {
-                var inner = ex.InnerException?.Message ?? ex.Message;
-                return StatusCode(500, $"Error interno: {inner}");
+                // Registrar el error para depuración
+                System.Diagnostics.Debug.WriteLine($"Error en API al crear producto: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Inner exception: {ex.InnerException.Message}");
+                }
+
+                return StatusCode(500, $"Error interno: {ex.Message}");
             }
-
         }
-
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] ProductUpdateDto dto)
         {
-            if (id != dto.Id)
-                return BadRequest();
-
             try
             {
-                var product = await _repository.GetByIdAsync(id);
-                if (product == null)
-                    return NotFound();
+                if (id != dto.Id)
+                    return BadRequest("El ID en la URL no coincide con el ID en el cuerpo de la solicitud");
 
-                // Actualizar propiedades
-                product.Name = dto.Name;
-                product.Size = dto.Size;
-                product.Color = dto.Color;
-                product.Stock = dto.Stock;
-                product.Price = dto.Price;
-                product.CategoryId = dto.CategoryId;
+                var existingProduct = await _repository.GetByIdAsync(id);
+                if (existingProduct == null)
+                    return NotFound($"No se encontró un producto con ID {id}");
 
-                await _repository.UpdateAsync(product);
+                // Actualizar solo las propiedades necesarias
+                existingProduct.Name = dto.Name;
+                existingProduct.Size = dto.Size;
+                existingProduct.Color = dto.Color;
+                existingProduct.Stock = dto.Stock;
+                existingProduct.Price = dto.Price;
+                existingProduct.CategoryId = dto.CategoryId;
+
+                await _repository.UpdateAsync(existingProduct);
                 return NoContent();
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error interno: {ex.Message}");
+                var inner = ex.InnerException?.Message ?? ex.Message;
+                return StatusCode(500, $"Error interno: {inner}");
             }
         }
 

@@ -5,6 +5,17 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configuración de CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowWebApp", policy =>
+    {
+        policy.WithOrigins("https://localhost:7059")  // URL de tu aplicación web
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // REGISTRO DE SERVICIOS
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
@@ -33,6 +44,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Usar CORS - IMPORTANTE: debe ir antes de UseAuthorization y MapControllers
+app.UseCors("AllowWebApp");
+
 app.UseAuthorization();
 
 app.MapControllers();
