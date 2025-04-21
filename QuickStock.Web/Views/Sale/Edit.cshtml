@@ -1,27 +1,26 @@
 ﻿@model QuickStock.Domain.Entities.Sale
 
 @{
-    ViewData["Title"] = "Editar Venta";
+    ViewData["Title"] = "Eliminar Venta";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="mb-4">Editar Venta</h2>
+<h2 class="text-danger mb-4">¿Estás seguro de que deseas eliminar esta venta?</h2>
 
-<form method="post" asp-controller="Sale" asp-action="Edit">
-    <input type="hidden" asp-for="Id" />
+<div class="border p-4 mb-3">
+    <dl class="row">
+        <dt class="col-sm-3">Producto</dt>
+        <dd class="col-sm-9">@Model.Product?.Name</dd>
 
-    <div class="mb-3">
-        <label asp-for="Date" class="form-label">Fecha</label>
-        <input asp-for="Date" class="form-control" type="date" />
-        <span asp-validation-for="Date" class="text-danger"></span>
-    </div>
+        <dt class="col-sm-3">Cantidad</dt>
+        <dd class="col-sm-9">@Model.Quantity</dd>
 
-    <div class="mb-3">
-        <label asp-for="TotalAmount" class="form-label">Total</label>
-        <input asp-for="TotalAmount" class="form-control" />
-        <span asp-validation-for="TotalAmount" class="text-danger"></span>
-    </div>
+        <dt class="col-sm-3">Total</dt>
+        <dd class="col-sm-9">@Model.TotalAmount.ToString("C")</dd>
+    </dl>
+</div>
 
-    <button type="submit" class="btn btn-warning text-white">Actualizar</button>
+<form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
     <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
 </form>

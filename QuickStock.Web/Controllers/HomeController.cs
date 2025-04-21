@@ -50,9 +50,25 @@
             ViewBag.TotalCategorias = categories.Count;
             ViewBag.TotalVentas = sales.Count;
             ViewBag.TotalIngresos = sales.Sum(s => s.TotalAmount);
+            // Agrupar ingresos por fecha
+            var ingresosPorDia = sales
+                .GroupBy(s => s.Date.Date)
+                .Select(g => new
+                {
+                    Fecha = g.Key.ToString("yyyy-MM-dd"),
+                    Total = g.Sum(s => s.TotalAmount)
+                })
+                .ToList();
+
+            // Pasar a la vista
+            ViewBag.Fechas = ingresosPorDia.Select(i => i.Fecha).ToList();
+            ViewBag.Montos = ingresosPorDia.Select(i => i.Total).ToList();
+
 
             return View();
+
         }
+
 
     }
 }

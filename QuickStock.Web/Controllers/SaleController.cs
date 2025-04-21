@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using QuickStock.Domain.Entities;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -8,19 +9,22 @@ namespace QuickStock.Web.Controllers
     public class SaleController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly string _apiUrl = "https://localhost:7122/api/Sales"; // Nota: Sales en plural
+        private readonly string _apiUrl = "https://localhost:7122/api/Sales";
+        private readonly string _productApiUrl = "https://localhost:7122/api/products";
 
         public SaleController(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
+        // GET: /Sale
         public async Task<IActionResult> Index()
         {
             var sales = await _httpClient.GetFromJsonAsync<List<Sale>>(_apiUrl) ?? new();
             return View(sales);
         }
 
+        // GET: /Sale/Edit/{id}
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -28,9 +32,11 @@ namespace QuickStock.Web.Controllers
             if (sale == null)
                 return NotFound();
 
+            await LoadProductsAsync(); // Cargar lista de productos
             return View(sale);
         }
 
+        // POST: /Sale/Edit
         [HttpPost]
         public async Task<IActionResult> Edit(Sale sale)
         {
@@ -40,10 +46,11 @@ namespace QuickStock.Web.Controllers
                 return RedirectToAction("Index");
 
             ModelState.AddModelError(string.Empty, "Error al actualizar la venta.");
+            await LoadProductsAsync(); // Volver a cargar si falla
             return View(sale);
         }
 
-     
+        // GET: /Sale/Delete/{id}
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -54,10 +61,10 @@ namespace QuickStock.Web.Controllers
             return View(sale);
         }
 
+        // POST: /Sale/DeleteConfirmed
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            // Este método hace el DELETE hacia la API
             var response = await _httpClient.DeleteAsync($"{_apiUrl}/{id}");
 
             if (response.IsSuccessStatusCode)
@@ -67,5 +74,11 @@ namespace QuickStock.Web.Controllers
             return RedirectToAction("Delete", new { id });
         }
 
+        // 🔁 Utilidad: Cargar productos para el dropdown
+        private async Task LoadProductsAsync()
+        {
+            var products = await _httpClient.GetFromJsonAsync<List<Product>>(_productApiUrl);
+            ViewBag.Products = new SelectList(products, "Id", "Name");
+        }
     }
 }

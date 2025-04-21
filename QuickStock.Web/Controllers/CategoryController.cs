@@ -76,6 +76,7 @@ namespace QuickStock.Web.Controllers
 
         // GET: /Category/Delete/{id}
         [HttpGet]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _httpClient.GetFromJsonAsync<Category>($"{_apiUrl}/{id}");

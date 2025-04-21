@@ -2,7 +2,7 @@
 using QuickStock.Domain.Entities;
 using QuickStock.Infrastructure.Repositories;
 using QuickStock.Application.DTOs;
-using QuickStock.Domain.Entities;
+
 
 
 

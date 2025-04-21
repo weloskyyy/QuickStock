@@ -1,43 +1,109 @@
 ﻿@{
-    ViewData["Title"] = "Inicio";
+    ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using System.Text.Json
 
-<div class="text-center">
-    <h1 class="display-4 mb-3">Bienvenidos a QuickStockRD</h1>
-    <p class="lead mb-4">
-        QuickStock es un sistema de gestión de inventario en tiempo real, diseñado para tiendas en línea.
-        Permite registrar productos, controlar el stock, gestionar ventas y analizar el rendimiento de tus productos.
-    </p>
 
-    <div class="row justify-content-center">
-        <div class="col-md-4">
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">🛍️ Gestión de Productos</h5>
-                    <p class="card-text">Registra, edita y organiza todos los productos de tu tienda fácilmente.</p>
+<div class="container">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold">Bienvenido a QuickStock</h1>
+        <p class="lead text-muted">Panel de control general de productos, categorías y ventas</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="card border-primary shadow h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-box-seam display-4 text-primary"></i>
+                    <h5 class="card-title mt-3">Productos</h5>
+                    <p class="display-6 fw-bold">@ViewBag.TotalProductos</p>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-4">
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">📦 Control de Inventario</h5>
-                    <p class="card-text">Visualiza el stock disponible en tiempo real y evita sobreventas.</p>
+        <div class="col-md-3">
+            <div class="card border-success shadow h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-tags display-4 text-success"></i>
+                    <h5 class="card-title mt-3">Categorías</h5>
+                    <p class="display-6 fw-bold">@ViewBag.TotalCategorias</p>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-4">
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">📈 Reportes y Ventas</h5>
-                    <p class="card-text">Consulta el historial de ventas y obtén reportes claros y útiles.</p>
+        <div class="col-md-3">
+            <div class="card border-warning shadow h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-cash-stack display-4 text-warning"></i>
+                    <h5 class="card-title mt-3">Ventas</h5>
+                    <p class="display-6 fw-bold">@ViewBag.TotalVentas</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-danger shadow h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-currency-dollar display-4 text-danger"></i>
+                    <h5 class="card-title mt-3">Ingresos</h5>
+                    <p class="display-6 fw-bold">@ViewBag.TotalIngresos.ToString("C")</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <a class="btn btn-primary btn-lg mt-3" href="/Product">Ir a Productos</a>
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <div class="card shadow p-4">
+                <h4 class="mb-3">Acciones rápidas</h4>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a class="btn btn-outline-primary" asp-controller="Product" asp-action="Create">➕ Nuevo Producto</a>
+                    <a class="btn btn-outline-success" asp-controller="Category" asp-action="Create">🗂️ Nueva Categoría</a>
+                    <a class="btn btn-outline-warning" asp-controller="Sale" asp-action="Create">💸 Nueva Venta</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow mb-5">
+        <div class="card-body">
+            <h4 class="card-title text-center mb-4">Ingresos por Día</h4>
+            <canvas id="graficoIngresos" height="100"></canvas>
+        </div>
+    </div>
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const ctx = document.getElementById('graficoIngresos').getContext('2d');
+                       const fechas = @Html.Raw(JsonSerializer.Serialize(ViewBag.Fechas));
+            const montos = @Html.Raw(JsonSerializer.Serialize(ViewBag.Montos));
+
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: fechas,
+                    datasets: [{
+                        label: 'Ingresos en RD$',
+                        data: montos,
+                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: value => 'RD$ ' + value.toLocaleString()
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    }
+
 </div>
+
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+}

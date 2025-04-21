@@ -1,34 +1,47 @@
 ﻿@model List<QuickStock.Domain.Entities.Sale>
 
 @{
-    ViewData["Title"] = "Historial de Ventas";
+    ViewData["Title"] = "Ventas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="mb-4">Historial de Ventas</h2>
+<h2 class="mb-4">Listado de Ventas</h2>
 
-<table class="table table-bordered table-hover">
-    <thead class="table-dark">
+<a asp-action="Create" class="btn btn-success mb-3">+ Nueva Venta</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark text-center">
         <tr>
             <th>ID</th>
+            <th>Producto</th>
             <th>Fecha</th>
+            <th>Cantidad</th>
             <th>Total</th>
             <th>Acciones</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var venta in Model)
+    <tbody class="text-center">
+        @if (Model.Any())
+        {
+            foreach (var sale in Model)
+            {
+                <tr>
+                    <td>@sale.Id</td>
+                    <td>@sale.Product?.Name</td>
+                    <td>@sale.Date.ToString("yyyy-MM-dd")</td>
+                    <td>@sale.Quantity</td>
+                    <td>@sale.TotalAmount.ToString("C")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@sale.Id" class="btn btn-sm btn-warning text-white me-1">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@sale.Id" class="btn btn-sm btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-                <td>@venta.Id</td>
-                <td>@venta.Date.ToShortDateString()</td>
-                <td>@venta.TotalAmount.ToString("C")</td>
-                <td>
-                    <a href="/SaleDetail?saleId=@venta.Id" class="btn btn-sm btn-info text-white">Ver Detalles</a>
-                    <a href="/Sale/Edit/@venta.Id" class="btn btn-sm btn-warning text-white">Editar</a>
-                    <a href="/Sale/Delete/@venta.Id" class="btn btn-sm btn-danger">Eliminar</a>
-
-                </td>
+                <td colspan="6" class="text-muted">No hay ventas registradas.</td>
             </tr>
         }
     </tbody>

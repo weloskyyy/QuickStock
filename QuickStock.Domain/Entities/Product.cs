@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QuickStock.Domain.Entities
 {
@@ -11,23 +7,25 @@ namespace QuickStock.Domain.Entities
     {
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string Name { get; set; }
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        [StringLength(100, ErrorMessage = "Máximo 100 caracteres")]
+        public string Name { get; set; } = string.Empty;
 
-        [Required]
-        public string Size { get; set; }
+        [Required(ErrorMessage = "La talla es obligatoria")]
+        public string Size { get; set; } = string.Empty;
 
-        
-        [StringLength(100)]
-        public string Color { get; set; }
+        [StringLength(100, ErrorMessage = "Máximo 100 caracteres")]
+        public string Color { get; set; } = string.Empty;
 
+        [Range(0, int.MaxValue, ErrorMessage = "El stock no puede ser negativo")]
         public int Stock { get; set; }
 
+        [Required(ErrorMessage = "Debe seleccionar una categoría")]
         public int CategoryId { get; set; }
+
         public Category Category { get; set; } = null!;
+
+        [Range(0, 1000000, ErrorMessage = "El precio debe ser mayor o igual a 0")]
         public decimal Price { get; set; }
-
-
     }
 }
