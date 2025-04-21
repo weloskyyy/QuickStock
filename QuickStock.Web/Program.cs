@@ -2,6 +2,7 @@ using QuickStock.Application.Services;
 using QuickStock.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using QuickStock.Infrastructure.Data;
+using QuickStock.Web.Controllers;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,14 @@ builder.Services.AddScoped<ProductRepository>();
 
 builder.Services.AddHttpClient("QuickStockApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7122");
+    client.BaseAddress = new Uri("https://localhost:7122/");
+    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+});
+
+builder.Services.AddTransient<ProductController>(provider => {
+    var httpClientFactory = provider.GetRequiredService<IHttpClientFactory>();
+    var client = httpClientFactory.CreateClient("QuickStockApi");
+    return new ProductController(client);
 });
 
 builder.Services.AddDbContext<QuickStockDbContext>(options =>
