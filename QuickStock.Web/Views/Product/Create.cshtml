@@ -7,43 +7,59 @@
 
 <h2 class="mb-4">Registrar Nuevo Producto</h2>
 
-<form method="post" asp-controller="Product" asp-action="Create">
+<div id="message-container"></div>
+
+<form id="product-form" method="post" class="needs-validation" novalidate>
+    <input type="hidden" name="Id" value="0" />
+
     <div class="mb-3">
-        <label asp-for="Name" class="form-label">Nombre</label>
-        <input asp-for="Name" class="form-control" autocomplete="off" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <label for="Name" class="form-label">Nombre</label>
+        <input id="Name" name="Name" class="form-control" autocomplete="off" required />
+        <div class="invalid-feedback">
+            El nombre es obligatorio.
+        </div>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Size" class="form-label">Talla</label>
-        <input asp-for="Size" class="form-control" autocomplete="off" />
-        <span asp-validation-for="Size" class="text-danger"></span>
+        <label for="Size" class="form-label">Talla</label>
+        <input id="Size" name="Size" class="form-control" autocomplete="off" required />
+        <div class="invalid-feedback">
+            La talla es obligatoria.
+        </div>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Color" class="form-label">Color</label>
-        <input asp-for="Color" class="form-control" autocomplete="off" />
-        <span asp-validation-for="Color" class="text-danger"></span>
+        <label for="Color" class="form-label">Color</label>
+        <input id="Color" name="Color" class="form-control" autocomplete="off" required />
+        <div class="invalid-feedback">
+            El color es obligatorio.
+        </div>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Price" class="form-label">Precio</label>
-        <input asp-for="Price" class="form-control" autocomplete="off" />
-        <span asp-validation-for="Price" class="text-danger"></span>
+        <label for="Price" class="form-label">Precio</label>
+        <input id="Price" name="Price" type="number" step="0.01" min="0" class="form-control" autocomplete="off" required />
+        <div class="invalid-feedback">
+            El precio debe ser mayor o igual a 0.
+        </div>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Stock" class="form-label">Stock</label>
-        <input asp-for="Stock" class="form-control" autocomplete="off" />
-        <span asp-validation-for="Stock" class="text-danger"></span>
+        <label for="Stock" class="form-label">Stock</label>
+        <input id="Stock" name="Stock" type="number" min="0" class="form-control" autocomplete="off" required />
+        <div class="invalid-feedback">
+            El stock debe ser mayor o igual a 0.
+        </div>
     </div>
 
     <div class="mb-3">
-        <label asp-for="CategoryId" class="form-label">Categoría</label>
-        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select">
+        <label for="CategoryId" class="form-label">Categoría</label>
+        <select id="CategoryId" name="CategoryId" asp-items="ViewBag.Categories" class="form-select" required>
             <option value="">-- Selecciona una categoría --</option>
         </select>
-        <span asp-validation-for="CategoryId" class="text-danger"></span>
+        <div class="invalid-feedback">
+            Debes seleccionar una categoría.
+        </div>
     </div>
 
     <button type="submit" class="btn btn-success">Guardar</button>
@@ -51,5 +67,7 @@
 </form>
 
 @section Scripts {
+    <script src="~/js/product-api.js"></script>
+    <script src="~/js/product-form.js"></script>
     <partial name="_ValidationScriptsPartial" />
 }

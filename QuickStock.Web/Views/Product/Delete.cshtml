@@ -5,22 +5,49 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="text-danger">¿Deseas eliminar este producto?</h2>
+<div class="card border-danger mb-4">
+    <div class="card-header bg-danger text-white">
+        <h2 class="mb-0">¿Está seguro de eliminar este producto?</h2>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle"></i> Esta acción no se puede deshacer.
+        </div>
 
-<div class="border rounded p-4 mb-3">
-    <dl class="row">
-        <dt class="col-sm-2">Nombre</dt>
-        <dd class="col-sm-10">@Model.Name</dd>
-
-        <dt class="col-sm-2">Precio</dt>
-        <dd class="col-sm-10">@Model.Price.ToString("C")</dd>
-
-        <dt class="col-sm-2">Stock</dt>
-        <dd class="col-sm-10">@Model.Stock</dd>
-    </dl>
+        <div class="row mb-3">
+            <div class="col-md-3 fw-bold">Nombre:</div>
+            <div class="col-md-9">@Model.Name</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3 fw-bold">Talla:</div>
+            <div class="col-md-9">@Model.Size</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3 fw-bold">Color:</div>
+            <div class="col-md-9">@Model.Color</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3 fw-bold">Precio:</div>
+            <div class="col-md-9">@Model.Price.ToString("C")</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3 fw-bold">Stock:</div>
+            <div class="col-md-9">@Model.Stock</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3 fw-bold">Categoría:</div>
+            <div class="col-md-9">@(Model.Category?.Name ?? "N/A")</div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Confirmar Eliminación
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-x-circle"></i> Cancelar
+            </a>
+        </form>
+    </div>
 </div>
-
-<form asp-action="Delete" asp-route-id="@Model.Id" method="post">
-    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-</form>
