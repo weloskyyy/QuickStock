@@ -10,7 +10,7 @@ async function createProduct(productData) {
         // URL de la API
         const apiUrl = 'https://localhost:7122/api/products';
 
-        // Configuración de la petición
+
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -20,17 +20,17 @@ async function createProduct(productData) {
             body: JSON.stringify(productData)
         };
 
-        // Realizar la petición
+
         const response = await fetch(apiUrl, requestOptions);
 
-        // Verificar si la respuesta es exitosa
+
         if (!response.ok) {
-            // Intentar obtener el mensaje de error del servidor
+
             const errorData = await response.json().catch(() => null);
             throw new Error(errorData ? JSON.stringify(errorData) : `Error ${response.status}: ${response.statusText}`);
         }
 
-        // Devolver los datos del producto creado
+
         return await response.json();
     } catch (error) {
         console.error('Error al crear el producto:', error);
@@ -46,10 +46,10 @@ async function createProduct(productData) {
  */
 async function updateProduct(id, productData) {
     try {
-        // URL de la API
+
         const apiUrl = `https://localhost:7122/api/products/${id}`;
 
-        // Configuración de la petición
+
         const requestOptions = {
             method: 'PUT',
             headers: {
@@ -59,17 +59,17 @@ async function updateProduct(id, productData) {
             body: JSON.stringify(productData)
         };
 
-        // Realizar la petición
+
         const response = await fetch(apiUrl, requestOptions);
 
-        // Verificar si la respuesta es exitosa
+
         if (!response.ok) {
-            // Intentar obtener el mensaje de error del servidor
+
             const errorData = await response.json().catch(() => null);
             throw new Error(errorData ? JSON.stringify(errorData) : `Error ${response.status}: ${response.statusText}`);
         }
 
-        // La API devuelve 204 No Content en caso de éxito
+
         return true;
     } catch (error) {
         console.error('Error al actualizar el producto:', error);
@@ -84,18 +84,17 @@ async function updateProduct(id, productData) {
  */
 async function getProductById(id) {
     try {
-        // URL de la API
+
         const apiUrl = `https://localhost:7122/api/products/${id}`;
 
-        // Realizar la petición
+
         const response = await fetch(apiUrl);
 
-        // Verificar si la respuesta es exitosa
+
         if (!response.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
 
-        // Devolver los datos del producto
         return await response.json();
     } catch (error) {
         console.error('Error al obtener el producto:', error);
@@ -110,23 +109,23 @@ async function getProductById(id) {
  */
 async function deleteProduct(id) {
     try {
-        // URL de la API
+
         const apiUrl = `https://localhost:7122/api/products/${id}`;
 
-        // Configuración de la petición
+
         const requestOptions = {
             method: 'DELETE'
         };
 
-        // Realizar la petición
+
         const response = await fetch(apiUrl, requestOptions);
 
-        // Verificar si la respuesta es exitosa
+
         if (!response.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
 
-        // La API devuelve 204 No Content en caso de éxito
+
         return true;
     } catch (error) {
         console.error('Error al eliminar el producto:', error);
