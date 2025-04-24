@@ -34,6 +34,7 @@ builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<SaleRepository>();
 
+
 var app = builder.Build();
 
 // MIDDLEWARE

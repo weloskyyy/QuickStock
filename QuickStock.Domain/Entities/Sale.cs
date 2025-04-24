@@ -1,5 +1,4 @@
 ﻿
-
 namespace QuickStock.Domain.Entities
 {
     public class Sale

@@ -1,7 +1,9 @@
-﻿
+﻿using Microsoft.EntityFrameworkCore;
 using QuickStock.Domain.Entities;
 using QuickStock.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace QuickStock.Infrastructure.Repositories
 {
@@ -14,28 +16,35 @@ namespace QuickStock.Infrastructure.Repositories
             _context = context;
         }
 
-
-        public async Task<List<Sale>> GetAllAsync()
+        public async Task<IEnumerable<Sale>> GetAllAsync()
         {
-            return await _context.Sales.ToListAsync();
+            return await _context.Sales
+                .Include(s => s.Product)
+                .ToListAsync();
         }
 
-
-
-        public async Task<Sale?> GetByIdAsync(int id)
+        public async Task<Sale> GetByIdAsync(int id)
         {
-            return await _context.Sales.FirstOrDefaultAsync(s => s.Id == id);
+            return await _context.Sales
+                .Include(s => s.Product)
+                .FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public async Task AddAsync(Sale sale)
         {
-            await _context.Sales.AddAsync(sale);
+            // Calcular el monto total antes de guardar
+            sale.TotalAmount = sale.Quantity * sale.UnitPrice;
+
+            _context.Sales.Add(sale);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Sale sale)
         {
-            _context.Sales.Update(sale);
+            // Recalcular el monto total
+            sale.TotalAmount = sale.Quantity * sale.UnitPrice;
+
+            _context.Entry(sale).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 
@@ -48,7 +57,5 @@ namespace QuickStock.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-
-
     }
 }
