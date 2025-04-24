@@ -8,8 +8,7 @@ namespace QuickStock.Web.Controllers
     public class CategoryController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly string _apiUrl = "https://localhost:7122/api/categories"; // Asegúrate que el endpoint en tu API se llama así
-
+        private readonly string _apiUrl = "https://localhost:7122/api/categories"; 
         public CategoryController(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -76,7 +75,6 @@ namespace QuickStock.Web.Controllers
 
         // GET: /Category/Delete/{id}
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _httpClient.GetFromJsonAsync<Category>($"{_apiUrl}/{id}");
@@ -87,7 +85,7 @@ namespace QuickStock.Web.Controllers
         }
 
         // POST: /Category/Delete/{id}
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
