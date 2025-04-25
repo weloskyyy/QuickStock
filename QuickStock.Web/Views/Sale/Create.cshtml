@@ -1,18 +1,18 @@
 ﻿@model QuickStock.Domain.Entities.Sale
 
 @{
-    ViewData["Title"] = "Editar Venta";
+    ViewData["Title"] = "Crear Venta";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Editar Venta</h2>
+<h2>Crear Nueva Venta</h2>
 
-<form asp-action="Edit" method="post" class="mt-4">
-    <input type="hidden" asp-for="Id" />
-
+<form asp-action="Create" method="post" class="mt-4">
     <div class="mb-3">
         <label asp-for="ProductId" class="form-label">Producto</label>
-        <select asp-for="ProductId" class="form-control" asp-items="ViewBag.Products"></select>
+        <select asp-for="ProductId" class="form-control" asp-items="ViewBag.Products">
+            <option value="">-- Selecciona un producto --</option>
+        </select>
         <span asp-validation-for="ProductId" class="text-danger"></span>
     </div>
 
@@ -28,6 +28,6 @@
         <span asp-validation-for="UnitPrice" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    <button type="submit" class="btn btn-success">Guardar</button>
     <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
 </form>

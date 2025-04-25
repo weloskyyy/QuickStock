@@ -32,7 +32,7 @@ namespace QuickStock.Infrastructure.Repositories
 
         public async Task AddAsync(Sale sale)
         {
-            // Calcular el monto total antes de guardar
+            
             sale.TotalAmount = sale.Quantity * sale.UnitPrice;
 
             _context.Sales.Add(sale);
@@ -41,7 +41,7 @@ namespace QuickStock.Infrastructure.Repositories
 
         public async Task UpdateAsync(Sale sale)
         {
-            // Recalcular el monto total
+            
             sale.TotalAmount = sale.Quantity * sale.UnitPrice;
 
             _context.Entry(sale).State = EntityState.Modified;

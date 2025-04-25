@@ -17,14 +17,14 @@ namespace QuickStock.Web.Controllers
             _httpClient = httpClient;
         }
 
-        // GET: /Sale
+        
         public async Task<IActionResult> Index()
         {
             var sales = await _httpClient.GetFromJsonAsync<List<Sale>>(_apiUrl) ?? new();
             return View(sales);
         }
 
-        // GET: /Sale/Edit/{id}
+        
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -36,7 +36,7 @@ namespace QuickStock.Web.Controllers
             return View(sale);
         }
 
-        // POST: /Sale/Edit
+        
         [HttpPost]
         public async Task<IActionResult> Edit(Sale sale)
         {
@@ -49,8 +49,14 @@ namespace QuickStock.Web.Controllers
             await LoadProductsAsync(); // Volver a cargar si falla
             return View(sale);
         }
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            await LoadProductsAsync();
+            return View();
+        }
 
-        // GET: /Sale/Delete/{id}
+        
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -61,7 +67,20 @@ namespace QuickStock.Web.Controllers
             return View(sale);
         }
 
-        // POST: /Sale/DeleteConfirmed
+        [HttpPost]
+        public async Task<IActionResult> Create(Sale sale)
+        {
+            var response = await _httpClient.PostAsJsonAsync(_apiUrl, sale);
+
+            if (response.IsSuccessStatusCode)
+                return RedirectToAction("Index");
+
+            ModelState.AddModelError(string.Empty, "Error al crear la venta.");
+            await LoadProductsAsync();
+            return View(sale);
+        }
+
+        
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -74,7 +93,10 @@ namespace QuickStock.Web.Controllers
             return RedirectToAction("Delete", new { id });
         }
 
-        // 🔁 Utilidad: Cargar productos para el dropdown
+
+
+
+      
         private async Task LoadProductsAsync()
         {
             var products = await _httpClient.GetFromJsonAsync<List<Product>>(_productApiUrl);
