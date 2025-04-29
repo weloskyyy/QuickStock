@@ -13,13 +13,13 @@ El proyecto sigue una **arquitectura por capas** (API + Frontend), asegurando un
 
 ---
 
-## 🚀 Funcionalidades Principales
+##  Funcionalidades Principales
 
-- 📦 Gestión de productos (CRUD).
-- 🏷️ Gestión de categorías (CRUD).
-- 🛒 Registro de ventas.
-- 📈 Reportes de ventas y stock actualizado.
-- 🔎 Búsqueda y filtrado de productos.
-- ✏️ Edición y eliminación de registros.
-- 🔒 Seguridad básica para operaciones CRUD.
-- 🌐 Consumo de API mediante Frontend web (conectado por HTTPS).
+-  Gestión de productos (CRUD).
+-  Gestión de categorías (CRUD).
+-  Registro de ventas.
+-  Reportes de ventas y stock actualizado.
+-  Búsqueda y filtrado de productos.
+-  Edición y eliminación de registros.
+-  Seguridad básica para operaciones CRUD.
+-  Consumo de API mediante Frontend web (conectado por HTTPS).
